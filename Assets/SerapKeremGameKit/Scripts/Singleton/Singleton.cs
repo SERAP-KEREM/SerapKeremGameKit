@@ -1,4 +1,4 @@
-namespace SerapKeremGameKit.Singletons
+namespace SerapKeremGameKit._Singletons
 {
     /// <summary>
     /// A generic Singleton class that works independently of MonoBehaviour and across the entire game lifecycle.

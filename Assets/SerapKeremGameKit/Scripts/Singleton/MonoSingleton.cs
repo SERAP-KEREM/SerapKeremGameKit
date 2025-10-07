@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace SerapKeremGameKit.Singletons
+namespace SerapKeremGameKit._Singletons
 {
     /// <summary>
     /// A base class for creating MonoSingletons, which are limited to a single instance in a scene.
