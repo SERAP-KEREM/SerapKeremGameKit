@@ -9,6 +9,16 @@
       },
       "hash": "bd1d662b53cff58b86c2cef02b284a52ce964cae"
     },
+    "com.coffee.ui-particle": {
+      "version": "https://github.com/mob-sakai/ParticleEffectForUGUI.git",
+      "depth": 0,
+      "source": "git",
+      "dependencies": {
+        "com.unity.ugui": "1.0.0",
+        "com.unity.modules.particlesystem": "1.0.0"
+      },
+      "hash": "4b98abd7469b10d55c9c623830cb6e1518f72731"
+    },
     "com.marijnzwemmer.unity-toolbar-extender": {
       "version": "https://github.com/marijnz/unity-toolbar-extender.git",
       "depth": 0,

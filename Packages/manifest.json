@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "com.codewriter.triinspector": "https://github.com/codewriter-packages/Tri-Inspector.git",
+    "com.coffee.ui-particle": "https://github.com/mob-sakai/ParticleEffectForUGUI.git",
     "com.marijnzwemmer.unity-toolbar-extender": "https://github.com/marijnz/unity-toolbar-extender.git",
     "com.unity.ai.navigation": "2.0.9",
     "com.unity.collab-proxy": "2.9.3",
