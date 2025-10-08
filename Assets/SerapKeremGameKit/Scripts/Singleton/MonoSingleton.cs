@@ -1,4 +1,5 @@
 using UnityEngine;
+using SerapKeremGameKit._Logging;
 
 namespace SerapKeremGameKit._Singletons
 {
@@ -19,7 +20,7 @@ namespace SerapKeremGameKit._Singletons
             {
                 if (_instance == null)
                 {
-                    Debug.LogError($"Instance of {typeof(T).Name} is not found in the scene.");
+                    RichLogger.LogError($"Instance of {typeof(T).Name} is not found in the scene.");
                 }
                 return _instance;
             }
@@ -37,7 +38,7 @@ namespace SerapKeremGameKit._Singletons
         {
             if (_instance != null && _instance != this)
             {
-                Debug.LogWarning($"Duplicate instance of {typeof(T).Name} detected. Destroying duplicate.");
+                RichLogger.LogWarning($"Duplicate instance of {typeof(T).Name} detected. Destroying duplicate.");
                 Destroy(gameObject);
                 return;
             }

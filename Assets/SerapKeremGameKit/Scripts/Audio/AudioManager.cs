@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using SerapKeremGameKit._Logging;
 
 
 namespace SerapKeremGameKit._Audio
@@ -62,7 +63,7 @@ namespace SerapKeremGameKit._Audio
         {
             if (!_keyToData.TryGetValue(key, out AudioData data) || data == null || data.Clip == null)
             {
-                Debug.LogWarning("Audio key not found: " + key);
+                RichLogger.LogWarning("Audio key not found: " + key, this);
                 return;
             }
 

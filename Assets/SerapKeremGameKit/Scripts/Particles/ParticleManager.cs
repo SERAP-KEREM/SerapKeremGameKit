@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using SerapKeremGameKit._Singletons;
+using SerapKeremGameKit._Logging;
 
 namespace SerapKeremGameKit._Particles
 {
@@ -24,7 +25,7 @@ namespace SerapKeremGameKit._Particles
         {
             if (!_keyToData.TryGetValue(key, out ParticleData data) || data == null || data.Prefab == null)
             {
-                Debug.LogWarning("Particle key not found: " + key);
+                RichLogger.LogWarning("Particle key not found: " + key, this);
                 return;
             }
 
