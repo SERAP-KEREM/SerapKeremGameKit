@@ -6,13 +6,24 @@ namespace SerapKeremGameKit._Audio
 {
     public sealed class AudioPool : BasePool<AudioPlayer>
     {
+        [SerializeField] private AudioPlayer _playerPrefab;
+
         protected override AudioPlayer Create()
         {
-            GameObject go = new GameObject("AudioPlayer");
-            go.transform.SetParent(transform);
-            AudioPlayer player = go.AddComponent<AudioPlayer>();
-            player.ResetState();
-            return player;
+            if (_playerPrefab != null)
+            {
+                AudioPlayer instance = Instantiate(_playerPrefab, transform, false);
+                instance.gameObject.SetActive(false);
+                instance.ResetState();
+                return instance;
+            }
+
+            GameObject go = new GameObject();
+            go.name = nameof(AudioPlayer);
+            go.transform.SetParent(transform, false);
+            AudioPlayer created = go.AddComponent<AudioPlayer>();
+            created.ResetState();
+            return created;
         }
 
         protected override void OnGet(AudioPlayer item)
