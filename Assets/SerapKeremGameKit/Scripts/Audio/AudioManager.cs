@@ -63,7 +63,7 @@ namespace SerapKeremGameKit._Audio
         {
             if (!_keyToData.TryGetValue(key, out AudioData data) || data == null || data.Clip == null)
             {
-                RichLogger.LogWarning("Audio key not found: " + key, this);
+                TraceLogger.LogWarning("Audio key not found: " + key, this);
                 return;
             }
 

@@ -9,14 +9,14 @@ using Debug = UnityEngine.Debug;
 
 namespace SerapKeremGameKit._Logging
 {
-    public enum RichLogLevel
+    public enum TraceLogLevel
     {
         Log,
         Warning,
         Error
     }
 
-    public static class RichLogger
+    public static class TraceLogger
     {
         private static readonly StringBuilder _sb = new StringBuilder(256);
 
@@ -44,7 +44,7 @@ namespace SerapKeremGameKit._Logging
         public static void Log(object message, ColorType colorType = ColorType._0Empty, Object context = null,
             bool callerInfo = true)
         {
-            LogInternal(RichLogLevel.Log, message, context, callerInfo, colorType);
+            LogInternal(TraceLogLevel.Log, message, context, callerInfo, colorType);
         }
 
         // Just message
@@ -82,7 +82,7 @@ namespace SerapKeremGameKit._Logging
         [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
         public static void LogWarning(object message, Object context = null, bool callerInfo = true, ColorType colorType = ColorType._4Yellow)
         {
-            LogInternal(RichLogLevel.Warning, message, context, callerInfo, colorType);
+            LogInternal(TraceLogLevel.Warning, message, context, callerInfo, colorType);
         }
 
         // Just message
@@ -133,7 +133,7 @@ namespace SerapKeremGameKit._Logging
         public static void LogError(object message, Object context = null, bool callerInfo = true,
             ColorType colorType = ColorType._3Red)
         {
-            LogInternal(RichLogLevel.Error, message, context, callerInfo, colorType);
+            LogInternal(TraceLogLevel.Error, message, context, callerInfo, colorType);
         }
 
         // Just message
@@ -175,7 +175,7 @@ namespace SerapKeremGameKit._Logging
 
         #region LOGINTERNAL
         [Conditional("UNITY_EDITOR"), Conditional("DEVELOPMENT_BUILD")]
-        private static void LogInternal(RichLogLevel level, object message, Object context, bool callerInfo, ColorType colorType)
+        private static void LogInternal(TraceLogLevel level, object message, Object context, bool callerInfo, ColorType colorType)
         {
 #if UNITY_EDITOR || DEVELOPMENT_BUILD
 
@@ -220,9 +220,9 @@ namespace SerapKeremGameKit._Logging
 
             switch (level)
             {
-                case RichLogLevel.Log: Debug.Log(output, context); break;
-                case RichLogLevel.Warning: Debug.LogWarning(output, context); break;
-                case RichLogLevel.Error: Debug.LogError(output, context); break;
+                case TraceLogLevel.Log: Debug.Log(output, context); break;
+                case TraceLogLevel.Warning: Debug.LogWarning(output, context); break;
+                case TraceLogLevel.Error: Debug.LogError(output, context); break;
             }
 
 #endif
@@ -234,7 +234,7 @@ namespace SerapKeremGameKit._Logging
         public static void Log(object message, Color unityColor, Object context = null, bool callerInfo = true)
         {
             string hex = ColorUtility.ToHtmlStringRGBA(unityColor);
-            LogInternal(RichLogLevel.Log, $"<color=#{hex}>{message}</color>", context, callerInfo, ColorType._0Empty);
+            LogInternal(TraceLogLevel.Log, $"<color=#{hex}>{message}</color>", context, callerInfo, ColorType._0Empty);
         }
     }
 }

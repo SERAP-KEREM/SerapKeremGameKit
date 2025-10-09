@@ -25,7 +25,7 @@ namespace SerapKeremGameKit._Particles
         {
             if (!_keyToData.TryGetValue(key, out ParticleData data) || data == null || data.Prefab == null)
             {
-                RichLogger.LogWarning("Particle key not found: " + key, this);
+                TraceLogger.LogWarning("Particle key not found: " + key, this);
                 return;
             }
 

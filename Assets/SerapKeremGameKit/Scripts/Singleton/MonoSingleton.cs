@@ -20,7 +20,7 @@ namespace SerapKeremGameKit._Singletons
             {
                 if (_instance == null)
                 {
-                    RichLogger.LogError($"Instance of {typeof(T).Name} is not found in the scene.");
+                    TraceLogger.LogError($"Instance of {typeof(T).Name} is not found in the scene.");
                 }
                 return _instance;
             }
@@ -38,7 +38,7 @@ namespace SerapKeremGameKit._Singletons
         {
             if (_instance != null && _instance != this)
             {
-                RichLogger.LogWarning($"Duplicate instance of {typeof(T).Name} detected. Destroying duplicate.");
+                TraceLogger.LogWarning($"Duplicate instance of {typeof(T).Name} detected. Destroying duplicate.");
                 Destroy(gameObject);
                 return;
             }
