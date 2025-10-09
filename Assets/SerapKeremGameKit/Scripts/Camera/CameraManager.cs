@@ -2,7 +2,7 @@ using SerapKeremGameKit._Singletons;
 using SerapKeremGameKit._Logging;
 using UnityEngine;
 
-namespace SerapKeremGameKit.Management._Camera
+namespace SerapKeremGameKit._Camera
 {
     public sealed class CameraManager : MonoSingleton<CameraManager>
     {
