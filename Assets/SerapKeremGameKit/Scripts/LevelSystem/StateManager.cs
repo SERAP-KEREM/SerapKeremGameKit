@@ -1,0 +1,88 @@
+using System.Collections;
+using UnityEngine;
+using TriInspector;
+using SerapKeremGameKit._Singletons;
+using SerapKeremGameKit._LevelSystem;
+using SerapKeremGameKit._Logging;
+
+
+namespace SerapKeremGameKit._Managers
+{
+    [HideMonoScript]
+    [DefaultExecutionOrder(-1)]
+    public class StateManager : MonoSingleton<StateManager>
+    {
+        [Title("Game State")]
+        [SerializeField, ReadOnly] private GameState _currentState = GameState.None;
+
+        [ShowInInspector, ReadOnly]
+        public GameState CurrentState => _currentState;
+
+        private Coroutine _timerCoroutine;
+        private double _levelTime;
+        private static readonly WaitForSeconds WaitOneSecond = new(1f);
+
+        #region State Transitions
+        public void SetLoading()
+        {
+            _currentState = GameState.Loading;
+        }
+
+        public void SetOnStart()
+        {
+            TraceLogger.Log("Level Started");
+            _currentState = GameState.OnStart;
+            StartTimer();
+        }
+
+        public void SetOnWin()
+        {
+            TraceLogger.Log("Level Won");
+            StopTimer();
+            _currentState = GameState.OnWin;
+        }
+
+        public void SetOnLose()
+        {
+            TraceLogger.Log("Level Lost");
+            StopTimer();
+            _currentState = GameState.OnLose;
+        }
+
+        public void SetOnRestart()
+        {
+            TraceLogger.Log("Level Restarted");
+            SetOnLose();
+        }
+        #endregion
+
+        #region Timer
+        private void StartTimer()
+        {
+            StopTimer();
+            _levelTime = 0;
+            _timerCoroutine = StartCoroutine(TimerRoutine());
+        }
+
+        private void StopTimer()
+        {
+            if (_timerCoroutine != null)
+            {
+                StopCoroutine(_timerCoroutine);
+                _timerCoroutine = null;
+            }
+        }
+
+        private IEnumerator TimerRoutine()
+        {
+            while (Application.isFocused)
+            {
+                yield return WaitOneSecond;
+                _levelTime++;
+            }
+        }
+        #endregion
+
+        public double GetLevelTime() => _levelTime;
+    }
+}
