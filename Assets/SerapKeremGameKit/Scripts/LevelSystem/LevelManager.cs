@@ -169,6 +169,8 @@ namespace SerapKeremGameKit._Managers
         {
             if (!ValidateGameStateForEvents()) return;
             StateManager.Instance.SetOnWin();
+            // Example: level-based coin reward
+            // EconomyManager.Instance.AddCoins(ActiveLevelNumber * 5);
         }
 
         [Button("Test LevelWin")]
@@ -176,6 +178,9 @@ namespace SerapKeremGameKit._Managers
         {
             if (!ValidateGameStateForEvents()) return;
             StateManager.Instance.SetOnWin();
+            // Example: move-based bonus
+            // int bonus = Mathf.Max(0, 10 - moveCount);
+            // EconomyManager.Instance.AddCoins(bonus);
         }
 
         [Button("Test LevelLose")]

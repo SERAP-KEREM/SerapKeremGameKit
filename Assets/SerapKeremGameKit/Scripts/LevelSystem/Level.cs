@@ -13,9 +13,7 @@ namespace SerapKeremGameKit._LevelSystem
     public class Level : MonoBehaviour
     {
 
-        [Title("Money Settings")]
-        [SerializeField] private long _money = 10;
-        public long Money => _money;
+        // [Title("Coins Settings")] // coin settings can be added here if level-specific
 
         [ReadOnly]
         [SerializeField] private bool _isLevelWon;
@@ -93,6 +91,8 @@ namespace SerapKeremGameKit._LevelSystem
         {
             InputHandler.Instance.LockInput();
             yield return new WaitForSeconds(0.5f);
+            // Example: reward coins for win
+            // EconomyManager.Instance.AddCoins(10);
             LevelManager.Instance.Win();
         }
 
