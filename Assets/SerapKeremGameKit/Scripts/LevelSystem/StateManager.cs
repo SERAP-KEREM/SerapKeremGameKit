@@ -33,6 +33,8 @@ namespace SerapKeremGameKit._Managers
             TraceLogger.Log("Level Started");
             _currentState = GameState.OnStart;
             StartTimer();
+            // Example: resume gameplay time if paused
+            // TimeManager.Instance.Resume();
         }
 
         public void SetOnWin()
@@ -40,6 +42,8 @@ namespace SerapKeremGameKit._Managers
             TraceLogger.Log("Level Won");
             StopTimer();
             _currentState = GameState.OnWin;
+            // Example: pause gameplay time for win panel
+            // TimeManager.Instance.Pause();
         }
 
         public void SetOnLose()
@@ -47,6 +51,8 @@ namespace SerapKeremGameKit._Managers
             TraceLogger.Log("Level Lost");
             StopTimer();
             _currentState = GameState.OnLose;
+            // Example: pause gameplay time for lose panel
+            // TimeManager.Instance.Pause();
         }
 
         public void SetOnRestart()
