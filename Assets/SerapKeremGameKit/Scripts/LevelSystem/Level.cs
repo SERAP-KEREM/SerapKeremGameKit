@@ -5,6 +5,7 @@ using SerapKeremGameKit._Managers;
 using System.Collections;
 using TriInspector;
 using UnityEngine;
+using Array2DEditor;
 
 
 
@@ -14,6 +15,9 @@ namespace SerapKeremGameKit._LevelSystem
     {
 
         // [Title("Coins Settings")] // coin settings can be added here if level-specific
+
+		[Title("Grid Settings"), PropertyOrder(2)]
+		[SerializeField] private Array2DInt _tileSizeArray;
 
         [ReadOnly]
         [SerializeField] private bool _isLevelWon;
