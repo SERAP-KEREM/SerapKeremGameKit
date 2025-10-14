@@ -7,7 +7,7 @@ using TriInspector;
 namespace SerapKeremGameKit._UI
 {
     [RequireComponent(typeof(RectTransform))]
-    [AddComponentMenu("RKN/UI/Custom UIButton")]
+    [AddComponentMenu("SerapKeremGameKit/UI/Custom UIButton")]
     public class CustomUIButton : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
     {
         [Title("Scale Settings")]
