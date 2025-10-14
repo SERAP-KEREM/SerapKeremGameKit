@@ -28,7 +28,7 @@ namespace SerapKeremGameKit._UI
 			_restartButton.onClick.AddListener(Restart);
 
 			SetLevelNo(LevelManager.Instance.ActiveLevelNumber);
-			_warningText.gameObject.SetActive(false);
+			//_warningText.gameObject.SetActive(false);
 		}
 
 		// Call this externally after level load/start if needed
@@ -71,40 +71,40 @@ namespace SerapKeremGameKit._UI
 			gameObject.SetActive(false);
 		}
 
-		[Title("Warning")]
-		[SerializeField] private TextMeshProUGUI _warningText;
+		//[Title("Warning")]
+		//[SerializeField] private TextMeshProUGUI _warningText;
 
-		private Coroutine _warningCoroutine;
-		private float _lastWarningTime = -Mathf.Infinity;
-		private const float WARNING_COOLDOWN = 10f;
-		private const float FADE_DURATION = 0.4f;
-		private const float DISPLAY_DURATION = 2f;
-		public void PlayWarningText()
-		{
-			if (Time.time < _lastWarningTime + WARNING_COOLDOWN)
-				return;
+		//private Coroutine _warningCoroutine;
+		//private float _lastWarningTime = -Mathf.Infinity;
+		//private const float WARNING_COOLDOWN = 10f;
+		//private const float FADE_DURATION = 0.4f;
+		//private const float DISPLAY_DURATION = 2f;
+		//public void PlayWarningText()
+		//{
+		//	if (Time.time < _lastWarningTime + WARNING_COOLDOWN)
+		//		return;
 
-			_lastWarningTime = Time.time;
+		//	_lastWarningTime = Time.time;
 
-			if (_warningCoroutine != null)
-				StopCoroutine(_warningCoroutine);
+		//	if (_warningCoroutine != null)
+		//		StopCoroutine(_warningCoroutine);
 
-			_warningCoroutine = StartCoroutine(PlayWarningTextRoutine());
-		}
-		private IEnumerator PlayWarningTextRoutine()
-		{
-			_warningText.gameObject.SetActive(true);
-			_warningText.alpha = 0f;
+		//	_warningCoroutine = StartCoroutine(PlayWarningTextRoutine());
+		//}
+		//private IEnumerator PlayWarningTextRoutine()
+		//{
+		//	_warningText.gameObject.SetActive(true);
+		//	_warningText.alpha = 0f;
 
-			yield return _warningText.DOFade(1f, FADE_DURATION).WaitForCompletion();
+		//	yield return _warningText.DOFade(1f, FADE_DURATION).WaitForCompletion();
 
-			yield return new WaitForSeconds(DISPLAY_DURATION);
+		//	yield return new WaitForSeconds(DISPLAY_DURATION);
 
-			yield return _warningText.DOFade(0f, FADE_DURATION).WaitForCompletion();
+		//	yield return _warningText.DOFade(0f, FADE_DURATION).WaitForCompletion();
 
-			_warningCoroutine = null;
-			_warningText.gameObject.SetActive(false);
-		}
+		//	_warningCoroutine = null;
+		//	_warningText.gameObject.SetActive(false);
+		//}
 
 		[Header("Capacity Bar")]
 		[SerializeField] private Slider _capacitySlider;

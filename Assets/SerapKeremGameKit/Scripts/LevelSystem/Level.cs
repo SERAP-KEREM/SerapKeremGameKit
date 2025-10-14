@@ -22,6 +22,9 @@ namespace SerapKeremGameKit._LevelSystem
         [ReadOnly]
         [SerializeField] private bool _isLevelWon;
 
+        [Title("Money Settings")]
+        [SerializeField] private long _money = 10;
+        public long Money => _money;
 
         private Coroutine _winCoroutine;
         private Coroutine _loseCoroutine;

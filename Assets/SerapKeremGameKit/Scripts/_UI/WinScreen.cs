@@ -5,8 +5,8 @@ using SerapKeremGameKit._Logging;
 using SerapKeremGameKit._Managers;
 using TMPro;
 using TriInspector;
-using UnityEngine;
 using UnityEngine.UI;
+using SerapKeremGameKit._Feature;
 
 namespace SerapKeremGameKit._UI
 {
@@ -34,7 +34,7 @@ namespace SerapKeremGameKit._UI
         [SerializeField] private TextMeshProUGUI _featureDescriptionText;
         [SerializeField] private Image _featureImage;
         [SerializeField] private Slider _featureProgressSlider;
-       
+        [SerializeField] private FeatureManager _featureManager;
 
         protected override void Awake()
         {
@@ -72,15 +72,13 @@ namespace SerapKeremGameKit._UI
         {
             SetMoneyAmount();
             ResetScreenStates();
-      
+            SetupFeatureSection();
             StartWinSequence();
         }
 
         private void SetMoneyAmount()
         {
-            // Replace with coins-only economy
-            int coins = PlayerPrefs.GetInt("skgk.currency.coins", 0);
-            _moneyAmountText.SetText($"+" + coins);
+            _moneyAmountText.SetText($"+{LevelManager.Instance.ActiveLevelInstance.Money}");
         }
 
         private void ResetScreenStates()
@@ -117,14 +115,43 @@ namespace SerapKeremGameKit._UI
             sequence.OnComplete(() => _nextButton.interactable = true);
         }
 
+        private void SetupFeatureSection()
+        {
+            int currentLevel = LevelManager.Instance.ActiveLevelNumber;
 
+            if (_featureManager != null && _featureManager.TryGetFeatureForUI(currentLevel,
+                out string title, out string description, out Sprite sprite, out float progress))
+            {
+                _featureTitleText.text = title;
+                _featureDescriptionText.text = description;
+                _featureImage.sprite = sprite;
+
+                // Kill old tweens before animating
+                _featureProgressSlider.DOKill();
+
+                // Animate slider smoothly
+                _featureProgressSlider.DOValue(progress, 0.75f).SetEase(Ease.OutCubic);
+            }
+            else
+            {
+                _featureTitleText.text = string.Empty;
+                _featureDescriptionText.text = string.Empty;
+                _featureImage.sprite = null;
+
+                _featureProgressSlider.DOKill();
+                _featureProgressSlider.value = 0f;
+            }
+        }
 
         private void OnNextButtonClicked()
         {
             _nextButton.interactable = false;
 
-            // Example: reward coins
-            // int rewardAmount = 10; PlayerPrefs.SetInt("skgk.currency.coins", PlayerPrefs.GetInt("skgk.currency.coins", 0) + rewardAmount); PlayerPrefs.Save();
+            CurrencyManager.Money.AddCurrency(
+               LevelManager.Instance.ActiveLevelInstance.Money,
+               _moneyAmountText.rectTransform.position,
+               false
+           );
 
             // Delay before loading next level
             DOVirtual.DelayedCall(_coinEffectDuration, NextButtonDelayCall);
