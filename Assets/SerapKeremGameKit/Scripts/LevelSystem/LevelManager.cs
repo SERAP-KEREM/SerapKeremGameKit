@@ -3,6 +3,7 @@ using SerapKeremGameKit._Singletons;
 using TriInspector;
 using UnityEngine;
 using SerapKeremGameKit._Logging;
+using SerapKeremGameKit._UI;
 
 namespace SerapKeremGameKit._Managers
 {
@@ -117,6 +118,8 @@ namespace SerapKeremGameKit._Managers
             ActiveLevelInstance = Instantiate(targetLevel);
             ActiveLevelInstance.Load();
             StateManager.Instance.SetLoading();
+            // UI: update level text on load
+            UIManager.Instance?.RefreshLevelNumber();
             StartLevel();
         }
 
@@ -128,6 +131,9 @@ namespace SerapKeremGameKit._Managers
         {
             ActiveLevelInstance.Play();
             StateManager.Instance.SetOnStart();
+            // UI: show in-game UI and refresh text
+            UIManager.Instance?.ShowInGameUI();
+            UIManager.Instance?.RefreshLevelNumber();
         }
 
         public void RetryLevel()
@@ -146,6 +152,8 @@ namespace SerapKeremGameKit._Managers
         public void CleanCurrentLevel()
         {
             TerminateCurrentLevel();
+            // UI: hide gameplay UI if needed
+            UIManager.Instance?.HideInGameUI();
         }
 
         public void IncreaseLevelNumber()
@@ -170,7 +178,9 @@ namespace SerapKeremGameKit._Managers
             if (!ValidateGameStateForEvents()) return;
             StateManager.Instance.SetOnWin();
             // Example: level-based coin reward
-            // EconomyManager.Instance.AddCoins(ActiveLevelNumber * 5);
+            // Currency.Currency.Add(ActiveLevelNumber * 5);
+            // UI: show win panel
+            UIManager.Instance?.ShowWinScreen();
         }
 
         [Button("Test LevelWin")]
@@ -180,7 +190,7 @@ namespace SerapKeremGameKit._Managers
             StateManager.Instance.SetOnWin();
             // Example: move-based bonus
             // int bonus = Mathf.Max(0, 10 - moveCount);
-            // EconomyManager.Instance.AddCoins(bonus);
+            // Currency.Currency.Add(bonus);
         }
 
         [Button("Test LevelLose")]
@@ -188,6 +198,8 @@ namespace SerapKeremGameKit._Managers
         {
             if (!ValidateGameStateForEvents()) return;
             StateManager.Instance.SetOnLose();
+            // UI: show fail panel
+            UIManager.Instance?.ShowFailScreen();
         }
 
         private bool ValidateGameStateForEvents()

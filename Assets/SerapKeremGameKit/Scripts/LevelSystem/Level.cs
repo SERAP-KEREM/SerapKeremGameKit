@@ -96,7 +96,7 @@ namespace SerapKeremGameKit._LevelSystem
             InputHandler.Instance.LockInput();
             yield return new WaitForSeconds(0.5f);
             // Example: reward coins for win
-            // EconomyManager.Instance.AddCoins(10);
+            // int coins = PlayerPrefs.GetInt("skgk.currency.coins", 0) + 10; PlayerPrefs.SetInt("skgk.currency.coins", coins); PlayerPrefs.Save();
             LevelManager.Instance.Win();
         }
 
