@@ -3,7 +3,6 @@ using SerapKeremGameKit._Singletons;
 using TriInspector;
 using UnityEngine;
 using SerapKeremGameKit._Logging;
-using SerapKeremGameKit._UI;
 
 namespace SerapKeremGameKit._Managers
 {
@@ -119,7 +118,7 @@ namespace SerapKeremGameKit._Managers
             ActiveLevelInstance.Load();
             StateManager.Instance.SetLoading();
             // UI: update level text on load
-            UIManager.Instance?.RefreshLevelNumber();
+            //UIManager.Instance?.RefreshLevelNumber();
             StartLevel();
         }
 
@@ -132,8 +131,8 @@ namespace SerapKeremGameKit._Managers
             ActiveLevelInstance.Play();
             StateManager.Instance.SetOnStart();
             // UI: show in-game UI and refresh text
-            UIManager.Instance?.ShowInGameUI();
-            UIManager.Instance?.RefreshLevelNumber();
+            //UIManager.Instance?.ShowInGameUI();
+            //UIManager.Instance?.RefreshLevelNumber();
         }
 
         public void RetryLevel()
@@ -153,7 +152,7 @@ namespace SerapKeremGameKit._Managers
         {
             TerminateCurrentLevel();
             // UI: hide gameplay UI if needed
-            UIManager.Instance?.HideInGameUI();
+            //UIManager.Instance?.HideInGameUI();
         }
 
         public void IncreaseLevelNumber()
@@ -180,7 +179,7 @@ namespace SerapKeremGameKit._Managers
             // Example: level-based coin reward
             // Currency.Currency.Add(ActiveLevelNumber * 5);
             // UI: show win panel
-            UIManager.Instance?.ShowWinScreen();
+            //UIManager.Instance?.ShowWinScreen();
         }
 
         [Button("Test LevelWin")]
@@ -199,7 +198,7 @@ namespace SerapKeremGameKit._Managers
             if (!ValidateGameStateForEvents()) return;
             StateManager.Instance.SetOnLose();
             // UI: show fail panel
-            UIManager.Instance?.ShowFailScreen();
+            //UIManager.Instance?.ShowFailScreen();
         }
 
         private bool ValidateGameStateForEvents()
