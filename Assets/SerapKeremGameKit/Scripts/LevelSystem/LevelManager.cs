@@ -2,7 +2,9 @@ using SerapKeremGameKit._LevelSystem;
 using SerapKeremGameKit._Singletons;
 using TriInspector;
 using UnityEngine;
+using UnityEngine.Serialization;
 using SerapKeremGameKit._Logging;
+using SerapKeremGameKit._Utilities;
 
 namespace SerapKeremGameKit._Managers
 {
@@ -11,27 +13,27 @@ namespace SerapKeremGameKit._Managers
     {
         #region Properties & Data Access
 
+        private const string ProgressKey = PreferencesKeys.ProgressData;
         public int ActiveLevelNumber
         {
-            get => PlayerPrefs.GetInt("ProgressData", 1);
-            set => PlayerPrefs.SetInt("ProgressData", value);
+            get => PlayerPrefs.GetInt(ProgressKey, 1);
+            set { PlayerPrefs.SetInt(ProgressKey, value); SaveUtility.SaveImmediate(); }
         }
 
-        [Tooltip("Enable randomized level selection after tutorial completion.")]
-        [SerializeField] private bool _enableRandomizedSelection = true;
+        [Tooltip("Use random selection after tutorials are completed.")]
+        [SerializeField] private bool _useRandomSelection = true;
 
         [Title("Level Collections")]
         [ListDrawerSettings(Draggable = true, AlwaysExpanded = false)]
-        [SerializeField, Required] private Level[] _gameplayLevels;
-
-        [SerializeField] private Level[] _introductionLevels;
+        [FormerlySerializedAs("_gameplayLevels")]
+        [SerializeField, Required] private Level[] _levels;
 
         public Level ActiveLevelInstance { get; private set; }
         public int ProcessedLevelIndex { get; private set; }
 
         // Public accessors for external systems
-        public Level[] GameplayLevels => _gameplayLevels;
-        public Level[] TutorialLevels => _introductionLevels;
+        public Level[] GameplayLevels => _levels;
+        public int GameplayLevelCount => _levels != null ? _levels.Length : 0;
 
         #endregion
 
@@ -62,60 +64,53 @@ namespace SerapKeremGameKit._Managers
 
         public void LoadCurrentLevel()
         {
-            var levelConfiguration = DetermineLevelConfiguration();
-            ProcessedLevelIndex = levelConfiguration.targetIndex;
-            ExecuteLevelInstantiation(levelConfiguration.selectedLevel);
+            var selection = ComputeLevelSelection();
+            ProcessedLevelIndex = selection.targetIndex;
+            InstantiateAndBegin(selection.selectedLevel);
         }
 
-        private (Level selectedLevel, int targetIndex) DetermineLevelConfiguration()
+        private (Level selectedLevel, int targetIndex) ComputeLevelSelection()
         {
-            int introductionCount = _introductionLevels.Length;
             int currentProgress = ActiveLevelNumber;
-
-            if (IsWithinIntroductionRange(currentProgress, introductionCount))
-            {
-                return (_introductionLevels[currentProgress - 1], currentProgress);
-            }
-
-            return ProcessGameplayLevelSelection(currentProgress - introductionCount);
+            return ResolveGameplaySelection(currentProgress);
         }
 
-        private bool IsWithinIntroductionRange(int progress, int totalIntroLevels)
+        private (Level selectedLevel, int targetIndex) ResolveGameplaySelection(int adjustedProgress)
         {
-            return progress <= totalIntroLevels;
+            int totalGameplayLevels = _levels.Length;
+            int calculatedIndex = ClampOrWrapIndex(adjustedProgress, totalGameplayLevels);
+
+            return (_levels[calculatedIndex - 1], calculatedIndex);
         }
 
-        private (Level selectedLevel, int targetIndex) ProcessGameplayLevelSelection(int adjustedProgress)
-        {
-            int totalGameplayLevels = _gameplayLevels.Length;
-            int calculatedIndex = DetermineGameplayLevelIndex(adjustedProgress, totalGameplayLevels);
-
-            return (_gameplayLevels[calculatedIndex - 1], calculatedIndex);
-        }
-
-        private int DetermineGameplayLevelIndex(int progressValue, int totalAvailable)
+        private int ClampOrWrapIndex(int progressValue, int totalAvailable)
         {
             if (progressValue <= totalAvailable)
                 return progressValue;
 
-            if (_enableRandomizedSelection)
-                return GenerateRandomLevelIndex(totalAvailable);
+            if (_useRandomSelection)
+                return GetRandomIndex(totalAvailable);
 
-            return CalculateWrappedIndex(progressValue, totalAvailable);
+            return WrapIndex(progressValue, totalAvailable);
         }
 
-        private int GenerateRandomLevelIndex(int maxRange) => Random.Range(1, maxRange + 1);
+        private int GetRandomIndex(int maxRange) => Random.Range(1, maxRange + 1);
 
-        private int CalculateWrappedIndex(int value, int wrapLimit)
+        private int WrapIndex(int value, int wrapLimit)
         {
             int remainder = value % wrapLimit;
             return remainder == 0 ? wrapLimit : remainder;
         }
 
-        private void ExecuteLevelInstantiation(Level targetLevel)
+        private void InstantiateAndBegin(Level targetLevel)
         {
             ActiveLevelInstance = Instantiate(targetLevel);
             ActiveLevelInstance.Load();
+            Time.timeScale = 1f;
+            if (SerapKeremGameKit._InputSystem.InputHandler.Instance != null)
+            {
+                SerapKeremGameKit._InputSystem.InputHandler.Instance.UnlockInput();
+            }
             StateManager.Instance.SetLoading();
             // UI: update level text on load
             //UIManager.Instance?.RefreshLevelNumber();
@@ -138,8 +133,8 @@ namespace SerapKeremGameKit._Managers
         public void RetryLevel()
         {
             TerminateCurrentLevel();
-            var retryTarget = _gameplayLevels[ProcessedLevelIndex - 1];
-            ExecuteLevelInstantiation(retryTarget);
+            var retryTarget = _levels[ProcessedLevelIndex - 1];
+            InstantiateAndBegin(retryTarget);
         }
 
         public void RestartLevel()
@@ -212,8 +207,8 @@ namespace SerapKeremGameKit._Managers
 
         private void PerformInitialValidation()
         {
-            if (_gameplayLevels == null || _gameplayLevels.Length == 0)
-                Debug.LogWarning($"{name}: Gameplay levels collection is not configured properly.", this);
+            if (_levels == null || _levels.Length == 0)
+                TraceLogger.LogWarning($"{name}: Levels array is not configured.", this);
         }
 
         private void ConfigureEnvironment()
@@ -236,19 +231,11 @@ namespace SerapKeremGameKit._Managers
 
         public Level GetLevelByNumber(int levelNumber)
         {
-            int introCount = _introductionLevels.Length;
+            int gameplayIndex = levelNumber;
 
-            if (levelNumber <= introCount)
-            {
-                if (levelNumber <= 0 || levelNumber > _introductionLevels.Length) return null;
-                return _introductionLevels[levelNumber - 1];
-            }
+            if (gameplayIndex <= 0 || gameplayIndex > _levels.Length) return null;
 
-            int gameplayIndex = levelNumber - introCount;
-
-            if (gameplayIndex <= 0 || gameplayIndex > _gameplayLevels.Length) return null;
-
-            return _gameplayLevels[gameplayIndex - 1];
+            return _levels[gameplayIndex - 1];
         }
 
         #region Utility & Validation Methods

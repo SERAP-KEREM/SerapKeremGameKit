@@ -1,12 +1,13 @@
 using SerapKeremGameKit._Singletons;
 using UnityEngine;
+using SerapKeremGameKit._Utilities;
 
 namespace SerapKeremGameKit._Economy
 {
     public sealed class CurrencyWallet : MonoSingleton<CurrencyWallet>
     {
-        private const string CoinsKey = "skgk.currency.coins.v1";
-        private const string CoinsSigKey = "skgk.currency.coins.sig.v1";
+        private const string CoinsKey = PreferencesKeys.WalletCoins;
+        private const string CoinsSigKey = PreferencesKeys.WalletCoinsSig;
         private const int Salt = 739391;
 
         public int Coins { get; private set; }
@@ -28,7 +29,7 @@ namespace SerapKeremGameKit._Economy
         {
             PlayerPrefs.SetInt(CoinsKey, Coins);
             PlayerPrefs.SetInt(CoinsSigKey, ComputeSig(Coins));
-            PlayerPrefs.Save();
+            SaveUtility.SaveDebounced();
         }
 
         public void Add(int amount)

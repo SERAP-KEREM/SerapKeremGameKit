@@ -35,6 +35,10 @@ namespace SerapKeremGameKit._LevelSystem
         public virtual void Load()
         {
             gameObject.SetActive(true);
+            // reset flags and stop any running routines
+            _isLevelWon = false;
+            if (_winCoroutine != null) { StopCoroutine(_winCoroutine); _winCoroutine = null; }
+            if (_loseCoroutine != null) { StopCoroutine(_loseCoroutine); _loseCoroutine = null; }
             Initialize();
         
         }
@@ -82,7 +86,11 @@ namespace SerapKeremGameKit._LevelSystem
 
         public virtual void Play()
         {
-            InputHandler.Instance.UnlockInput();
+            if (InputHandler.Instance != null)
+            {
+                // unlock only if previously locked (defensive)
+                InputHandler.Instance.UnlockInput();
+            }
 
         }
 

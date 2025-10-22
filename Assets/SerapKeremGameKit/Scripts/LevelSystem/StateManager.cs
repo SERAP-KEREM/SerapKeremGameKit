@@ -19,7 +19,7 @@ namespace SerapKeremGameKit._Managers
         public GameState CurrentState => _currentState;
 
         private Coroutine _timerCoroutine;
-        private double _levelTime;
+        private double _elapsedSeconds;
         private static readonly WaitForSeconds WaitOneSecond = new(1f);
 
         #region State Transitions
@@ -66,7 +66,7 @@ namespace SerapKeremGameKit._Managers
         private void StartTimer()
         {
             StopTimer();
-            _levelTime = 0;
+            _elapsedSeconds = 0;
             _timerCoroutine = StartCoroutine(TimerRoutine());
         }
 
@@ -81,14 +81,19 @@ namespace SerapKeremGameKit._Managers
 
         private IEnumerator TimerRoutine()
         {
-            while (Application.isFocused)
+            while (true)
             {
-                yield return WaitOneSecond;
-                _levelTime++;
+                yield return null;
+                _elapsedSeconds += Time.unscaledDeltaTime;
             }
         }
         #endregion
 
-        public double GetLevelTime() => _levelTime;
+        public double GetLevelTime() => _elapsedSeconds;
+
+        public void ResetTimer()
+        {
+            _elapsedSeconds = 0;
+        }
     }
 }
