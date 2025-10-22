@@ -69,9 +69,8 @@ namespace SerapKeremGameKit._EditorTools
 
         private static void EnsureCache(LevelManager lm)
         {
-            int tutorialCount = lm.TutorialLevels != null ? lm.TutorialLevels.Length : 0;
             int gameplayCount = lm.GameplayLevels != null ? lm.GameplayLevels.Length : 0;
-            int total = tutorialCount + gameplayCount;
+            int total = gameplayCount;
             if (_levelDisplayOptions != null && _cachedTotalCount == total) return;
 
             _cachedTotalCount = total;
@@ -79,9 +78,6 @@ namespace SerapKeremGameKit._EditorTools
             _levelDisplayOptions[0] = "Play From Level";
 
             int idx = 1;
-            for (int i = 1; i <= tutorialCount; i++, idx++)
-                _levelDisplayOptions[idx] = $"{i} - Tutorial";
-
             for (int i = 1; i <= gameplayCount; i++, idx++)
                 _levelDisplayOptions[idx] = $"{i} - Level";
         }
