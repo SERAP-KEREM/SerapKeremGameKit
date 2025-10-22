@@ -7,6 +7,7 @@ namespace SerapKeremGameKit._UI
     {
         [SerializeField] private Toggle _soundToggle;
         [SerializeField] private Toggle _hapticToggle;
+        [SerializeField] private Button _closeButton;
 
         private const string SoundKey = "skgk.settings.sound";
         private const string HapticKey = "skgk.settings.haptic";
@@ -21,12 +22,14 @@ namespace SerapKeremGameKit._UI
         {
             if (_soundToggle != null) _soundToggle.onValueChanged.AddListener(OnSoundToggled);
             if (_hapticToggle != null) _hapticToggle.onValueChanged.AddListener(OnHapticToggled);
+            if (_closeButton != null) _closeButton.onClick.AddListener(OnCloseClicked);
         }
 
         private void OnDestroy()
         {
             if (_soundToggle != null) _soundToggle.onValueChanged.RemoveListener(OnSoundToggled);
             if (_hapticToggle != null) _hapticToggle.onValueChanged.RemoveListener(OnHapticToggled);
+            if (_closeButton != null) _closeButton.onClick.RemoveListener(OnCloseClicked);
         }
 
         private void OnSoundToggled(bool value)
@@ -39,6 +42,11 @@ namespace SerapKeremGameKit._UI
         {
             PlayerPrefs.SetInt(HapticKey, value ? 1 : 0);
             PlayerPrefs.Save();
+        }
+
+        private void OnCloseClicked()
+        {
+            Hide();
         }
     }
 }

@@ -153,6 +153,11 @@ namespace SerapKeremGameKit._UI
         {
             HideAll();
             LevelManager.Instance.RestartLevel();
+            if (_hud != null)
+            {
+                _hud.Show();
+                _hud.SetLevelIndex(LevelManager.Instance.ActiveLevelNumber - 1);
+            }
         }
 
         public void OnNextLevelRequested()
@@ -164,6 +169,10 @@ namespace SerapKeremGameKit._UI
             }
             LevelManager.Instance.IncreaseLevelNumber();
             LevelManager.Instance.LoadCurrentLevel();
+            if (_hud != null)
+            {
+                _hud.SetLevelIndex(LevelManager.Instance.ActiveLevelNumber - 1);
+            }
         }
 
         public void ProceedNextLevelAfterReward(int reward)
