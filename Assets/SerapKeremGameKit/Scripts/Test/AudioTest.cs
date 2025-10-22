@@ -1,19 +1,43 @@
-using DG.Tweening;
 using SerapKeremGameKit._Audio;
+using SerapKeremGameKit._Logging;
+using TriInspector;
 using UnityEngine;
 
 public class AudioTest : MonoBehaviour
 {
     [SerializeField] private string _audioKey;
     [SerializeField] private AudioManager _audioManager;
+    [SerializeField] private bool _useKeyboard = true;
+    [SerializeField] private KeyCode _playKey = KeyCode.A;
+
+    private void Awake()
+    {
+        if (_audioManager == null)
+            _audioManager = FindObjectOfType<AudioManager>(true);
+    }
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.A))
+        if (!_useKeyboard) return;
+        if (Input.GetKeyDown(_playKey))
         {
-            _audioManager.Play(_audioKey);
-
+            PlayNow();
         }
-        
+    }
+
+    [Button("Play Audio Now")]
+    private void PlayNow()
+    {
+        if (_audioManager == null)
+        {
+            TraceLogger.LogWarning("AudioManager is missing.", this);
+            return;
+        }
+        if (string.IsNullOrEmpty(_audioKey))
+        {
+            TraceLogger.LogWarning("Audio key is empty.", this);
+            return;
+        }
+        _audioManager.Play(_audioKey);
     }
 }
