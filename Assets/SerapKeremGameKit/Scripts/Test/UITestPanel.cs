@@ -169,7 +169,7 @@ namespace SerapKeremGameKit._UI
             }
             else
             {
-                stars = EvaluateStarsManual(_manualTimeThresholdsSec, _completionTimeSec);
+                stars = StarEvaluator.EvaluateStars(_manualTimeThresholdsSec, _completionTimeSec);
                 wCoins = _manualWinCoins;
                 fCoins = _manualFailCoins;
             }
@@ -177,15 +177,7 @@ namespace SerapKeremGameKit._UI
             return (stars, wCoins, fCoins);
         }
 
-        private int EvaluateStarsManual(float[] thresholds, float completionTimeSec)
-        {
-            if (thresholds == null || thresholds.Length < 3) return 0;
-            float t = completionTimeSec;
-            if (t <= thresholds[0]) return 3;
-            if (t <= thresholds[1]) return 2;
-            if (t <= thresholds[2]) return 1;
-            return 0;
-        }
+        
 
         private CurrencyWallet GetWallet()
         {

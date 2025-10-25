@@ -11,17 +11,16 @@ namespace SerapKeremGameKit._UI
         [SerializeField] private Button _settingsButton;
         [SerializeField] private UIRootController _uiRoot;
 
-        private void Awake()
-        {
-            if (_restartButton != null) _restartButton.onClick.AddListener(OnRestartClicked);
-            if (_settingsButton != null) _settingsButton.onClick.AddListener(OnSettingsClicked);
-        }
+		private void Awake()
+		{
+			if (_restartButton != null) _restartButton.BindOnClick(this, OnRestartClicked);
+			if (_settingsButton != null) _settingsButton.BindOnClick(this, OnSettingsClicked);
+		}
 
-        private void OnDestroy()
-        {
-            if (_restartButton != null) _restartButton.onClick.RemoveListener(OnRestartClicked);
-            if (_settingsButton != null) _settingsButton.onClick.RemoveListener(OnSettingsClicked);
-        }
+		private void OnDestroy()
+		{
+			// Auto-unsubscribe handled by ButtonExtensions
+		}
 
         public void SetLevelIndex(int levelIndex)
         {
@@ -31,15 +30,18 @@ namespace SerapKeremGameKit._UI
 
         private void OnRestartClicked()
         {
-            if (_uiRoot == null) _uiRoot = FindObjectOfType<UIRootController>(true);
             if (_uiRoot != null) _uiRoot.OnRestartRequested();
         }
 
         private void OnSettingsClicked()
         {
-            if (_uiRoot == null) _uiRoot = FindObjectOfType<UIRootController>(true);
             if (_uiRoot != null) _uiRoot.OnOpenSettings();
         }
+
+		public void SetUIRoot(UIRootController uiRoot)
+		{
+			_uiRoot = uiRoot;
+		}
     }
 }
 

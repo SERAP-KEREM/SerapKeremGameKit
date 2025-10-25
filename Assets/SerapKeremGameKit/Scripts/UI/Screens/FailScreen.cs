@@ -11,15 +11,15 @@ namespace SerapKeremGameKit._UI
         [SerializeField] private Button _restartButton;
         [SerializeField] private UIRootController _uiRoot;
 
-        private void Awake()
-        {
-            if (_restartButton != null) _restartButton.onClick.AddListener(OnRestartClicked);
-        }
+		private void Awake()
+		{
+			if (_restartButton != null) _restartButton.BindOnClick(this, OnRestartClicked);
+		}
 
-        private void OnDestroy()
-        {
-            if (_restartButton != null) _restartButton.onClick.RemoveListener(OnRestartClicked);
-        }
+		private void OnDestroy()
+		{
+			// Auto-unsubscribe handled by ButtonExtensions
+		}
 
         public void Setup(int rewardedCoins, UIRootController uiRoot)
         {
@@ -29,9 +29,13 @@ namespace SerapKeremGameKit._UI
 
         private void OnRestartClicked()
         {
-            if (_uiRoot == null) _uiRoot = FindObjectOfType<UIRootController>(true);
-            if (_uiRoot != null) _uiRoot.OnRestartConfirmed();
+			if (_uiRoot != null) _uiRoot.OnRestartConfirmed();
         }
+
+		public void SetUIRoot(UIRootController uiRoot)
+		{
+			_uiRoot = uiRoot;
+		}
     }
 }
 

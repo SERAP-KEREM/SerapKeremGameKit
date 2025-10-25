@@ -29,6 +29,12 @@ namespace SerapKeremGameKit._UI
             if (_settings == null) _settings = GetComponentInChildren<SettingsScreen>(true);
             if (_retry == null) _retry = GetComponentInChildren<RetryScreen>(true);
 
+			// Inject UIRoot into screens to avoid FindObjectOfType
+			if (_hud != null) _hud.SetUIRoot(this);
+			if (_win != null) _win.SetUIRoot(this);
+			if (_fail != null) _fail.SetUIRoot(this);
+			if (_retry != null) _retry.SetUIRoot(this);
+
             // Ensure startup state: only HUD hidden initially (will be shown in Start)
             if (_win != null) _win.HideImmediate();
             if (_fail != null) _fail.HideImmediate();

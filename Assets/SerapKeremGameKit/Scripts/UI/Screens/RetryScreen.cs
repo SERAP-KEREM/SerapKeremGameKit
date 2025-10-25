@@ -9,28 +9,31 @@ namespace SerapKeremGameKit._UI
         [SerializeField] private Button _noButton;
         [SerializeField] private UIRootController _uiRoot;
 
-        private void Awake()
-        {
-            if (_yesButton != null) _yesButton.onClick.AddListener(OnYes);
-            if (_noButton != null) _noButton.onClick.AddListener(OnNo);
-        }
+		private void Awake()
+		{
+			if (_yesButton != null) _yesButton.BindOnClick(this, OnYes);
+			if (_noButton != null) _noButton.BindOnClick(this, OnNo);
+		}
 
-        private void OnDestroy()
-        {
-            if (_yesButton != null) _yesButton.onClick.RemoveListener(OnYes);
-            if (_noButton != null) _noButton.onClick.RemoveListener(OnNo);
-        }
+		private void OnDestroy()
+		{
+			// Auto-unsubscribe handled by ButtonExtensions
+		}
 
         private void OnYes()
         {
-            if (_uiRoot == null) _uiRoot = FindObjectOfType<UIRootController>(true);
-            if (_uiRoot != null) _uiRoot.OnRestartConfirmed();
+			if (_uiRoot != null) _uiRoot.OnRestartConfirmed();
         }
 
         private void OnNo()
         {
             Hide();
         }
+
+		public void SetUIRoot(UIRootController uiRoot)
+		{
+			_uiRoot = uiRoot;
+		}
     }
 }
 

@@ -18,19 +18,19 @@ namespace SerapKeremGameKit._UI
             if (_hapticToggle != null) _hapticToggle.isOn = PlayerPrefs.GetInt(HapticKey, 1) == 1;
         }
 
-        private void Awake()
-        {
-            if (_soundToggle != null) _soundToggle.onValueChanged.AddListener(OnSoundToggled);
-            if (_hapticToggle != null) _hapticToggle.onValueChanged.AddListener(OnHapticToggled);
-            if (_closeButton != null) _closeButton.onClick.AddListener(OnCloseClicked);
-        }
+		private void Awake()
+		{
+			if (_soundToggle != null) _soundToggle.onValueChanged.AddListener(OnSoundToggled);
+			if (_hapticToggle != null) _hapticToggle.onValueChanged.AddListener(OnHapticToggled);
+			if (_closeButton != null) _closeButton.BindOnClick(this, OnCloseClicked);
+		}
 
-        private void OnDestroy()
-        {
-            if (_soundToggle != null) _soundToggle.onValueChanged.RemoveListener(OnSoundToggled);
-            if (_hapticToggle != null) _hapticToggle.onValueChanged.RemoveListener(OnHapticToggled);
-            if (_closeButton != null) _closeButton.onClick.RemoveListener(OnCloseClicked);
-        }
+		private void OnDestroy()
+		{
+			if (_soundToggle != null) _soundToggle.onValueChanged.RemoveListener(OnSoundToggled);
+			if (_hapticToggle != null) _hapticToggle.onValueChanged.RemoveListener(OnHapticToggled);
+			// _closeButton auto-unsubscribed by ButtonExtensions
+		}
 
         private void OnSoundToggled(bool value)
         {

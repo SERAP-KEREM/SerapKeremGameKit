@@ -39,13 +39,13 @@ namespace SerapKeremGameKit._UI
 					.SetEase(Ease.InOutSine)
 					.SetDelay(i * _delayStep)
 					.SetAutoKill(true)
-					.SetLink(gameObject, LinkBehaviour.KillOnDestroy);
+					.SetLink(icon.gameObject, LinkBehaviour.KillOnDisable | LinkBehaviour.KillOnDestroy);
 
                 // Fly to target
 				var s2 = icon.DOMove(target.position, _moveDuration)
 					.SetEase(Ease.InBack)
 					.SetAutoKill(true)
-					.SetLink(gameObject, LinkBehaviour.KillOnDestroy)
+					.SetLink(icon.gameObject, LinkBehaviour.KillOnDisable | LinkBehaviour.KillOnDestroy)
                     .OnComplete(() =>
                     {
                         long stepValue = (long)Mathf.Ceil(Mathf.Lerp(startAmount, end, t));
@@ -56,7 +56,7 @@ namespace SerapKeremGameKit._UI
 							.SetEase(Ease.OutQuad)
 							.SetLoops(2, LoopType.Yoyo)
 							.SetAutoKill(true)
-							.SetLink(gameObject, LinkBehaviour.KillOnDestroy)
+							.SetLink(target.gameObject, LinkBehaviour.KillOnDestroy)
 							.OnComplete(() =>
                         {
                             target.localScale = originalScale;
@@ -66,7 +66,7 @@ namespace SerapKeremGameKit._UI
 
 				var coinSeq = DOTween.Sequence()
 					.SetAutoKill(true)
-					.SetLink(gameObject, LinkBehaviour.KillOnDestroy);
+					.SetLink(icon.gameObject, LinkBehaviour.KillOnDisable | LinkBehaviour.KillOnDestroy);
                 coinSeq.Append(s1);
                 coinSeq.Append(s2);
                 master.Insert(0f, coinSeq);

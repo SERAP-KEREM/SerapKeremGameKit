@@ -26,12 +26,12 @@ namespace SerapKeremGameKit._UI
 
         private void Awake()
         {
-            if (_nextButton != null) _nextButton.onClick.AddListener(OnNextClicked);
+			if (_nextButton != null) _nextButton.BindOnClick(this, OnNextClicked);
         }
 
 		private void OnDestroy()
         {
-            if (_nextButton != null) _nextButton.onClick.RemoveListener(OnNextClicked);
+			// Listener auto-unsubscribed by ButtonExtensions binding component
 			if (_pendingSequence != null && _pendingSequence.IsActive())
 			{
 				_pendingSequence.Kill();
@@ -72,14 +72,18 @@ namespace SerapKeremGameKit._UI
                 {
 					_pendingSequence.SetAutoKill(true).SetLink(gameObject, LinkBehaviour.KillOnDestroy).OnComplete(() =>
                     {
-                        if (_uiRoot != null) _uiRoot.ProceedNextLevelAfterReward(_pendingReward);
+						if (_uiRoot != null) _uiRoot.ProceedNextLevelAfterReward(_pendingReward);
                     });
                     return;
                 }
             }
-            if (_uiRoot == null) _uiRoot = FindObjectOfType<UIRootController>(true);
             if (_uiRoot != null) _uiRoot.ProceedNextLevelAfterReward(_pendingReward);
         }
+
+		public void SetUIRoot(UIRootController uiRoot)
+		{
+			_uiRoot = uiRoot;
+		}
     }
 }
 
