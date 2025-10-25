@@ -9,7 +9,8 @@ namespace SerapKeremGameKit._Camera
         [SerializeField] private Transform _gameCamera;
         [SerializeField] private Transform _followTarget;
         [SerializeField] private Vector3 _followOffset;
-        [SerializeField] private float _followLerp = 10f;
+		[SerializeField] private float _followLerp = 10f; // kept for backward compat (deprecated)
+		[SerializeField] private bool _snapOnStart = true;
 
         private Vector3 _initialPosition;
         private Quaternion _initialRotation;
@@ -20,7 +21,7 @@ namespace SerapKeremGameKit._Camera
             _gameCamera.position = _followTarget.position + _followOffset;
         }
 
-        protected override void Awake()
+		protected override void Awake()
         {
             base.Awake();
             if (Instance != this) return;
@@ -29,8 +30,11 @@ namespace SerapKeremGameKit._Camera
             _initialPosition = _gameCamera.position;
             _initialRotation = _gameCamera.rotation;
 
-            //SetFollowTarget(_followTarget, _followOffset);
-            //SnapFollow(); // if target exists, snap once
+			// One-shot follow at startup if configured
+			if (_snapOnStart && _followTarget != null)
+			{
+				SnapFollow();
+			}
         }
 
 
@@ -47,7 +51,8 @@ namespace SerapKeremGameKit._Camera
             _followOffset = offset;
         }
 
-        public void StepFollow(float deltaTime)
+		[System.Obsolete("Continuous follow is deprecated. Use SnapFollow/InitializeCameraPosition for one-shot.")]
+		public void StepFollow(float deltaTime)
         {
             if (_gameCamera == null || _followTarget == null) return;
             Vector3 targetPos = _followTarget.position + _followOffset;
