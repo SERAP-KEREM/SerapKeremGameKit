@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace SerapKeremGameKit._UI
 {
-    public sealed class RetryScreen : UIScreen
+	public sealed class RetryPanel : UIPanel
     {
         [SerializeField] private Button _yesButton;
         [SerializeField] private Button _noButton;

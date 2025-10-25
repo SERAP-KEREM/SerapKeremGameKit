@@ -12,11 +12,11 @@ namespace SerapKeremGameKit._UI
     {
         [Title("References")]
         [Group("Refs"), SerializeField] private UIRootController _uiRoot;
-        [Group("Refs"), SerializeField] private UIManagerHUD _hud;
-        [Group("Refs"), SerializeField] private WinScreen _win;
-        [Group("Refs"), SerializeField] private FailScreen _fail;
-        [Group("Refs"), SerializeField] private SettingsScreen _settings;
-        [Group("Refs"), SerializeField] private RetryScreen _retry;
+		[Group("Refs"), SerializeField] private HUDPanel _hud;
+		[Group("Refs"), SerializeField] private WinPanel _win;
+		[Group("Refs"), SerializeField] private FailPanel _fail;
+		[Group("Refs"), SerializeField] private SettingsPanel _settings;
+		[Group("Refs"), SerializeField] private RetryPanel _retry;
         [Group("Refs"), SerializeField] private CurrencyWallet _wallet; // optional reference for tests
 
         [Title("Star & Reward Test")]

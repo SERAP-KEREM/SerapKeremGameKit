@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace SerapKeremGameKit._UI
 {
-    public abstract class UIScreen : MonoBehaviour
+	public abstract class UIPanel : MonoBehaviour
     {
         [SerializeField] protected CanvasGroup canvasGroup;
         [SerializeField] protected float showDuration = 0.2f;

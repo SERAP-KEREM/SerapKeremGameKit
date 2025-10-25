@@ -9,11 +9,11 @@ namespace SerapKeremGameKit._UI
     public sealed class UIRootController : MonoBehaviour
     {
         [Header("References")]
-        [SerializeField] private UIManagerHUD _hud;
-        [SerializeField] private WinScreen _win;
-        [SerializeField] private FailScreen _fail;
-        [SerializeField] private SettingsScreen _settings;
-        [SerializeField] private RetryScreen _retry;
+		[SerializeField] private HUDPanel _hud;
+		[SerializeField] private WinPanel _win;
+		[SerializeField] private FailPanel _fail;
+		[SerializeField] private SettingsPanel _settings;
+		[SerializeField] private RetryPanel _retry;
 
         [Header("Data")] 
         [SerializeField] private LevelConfig _fallbackConfig;
@@ -23,11 +23,11 @@ namespace SerapKeremGameKit._UI
         private void Awake()
         {
             // Auto-wire if not assigned
-            if (_hud == null) _hud = GetComponentInChildren<UIManagerHUD>(true);
-            if (_win == null) _win = GetComponentInChildren<WinScreen>(true);
-            if (_fail == null) _fail = GetComponentInChildren<FailScreen>(true);
-            if (_settings == null) _settings = GetComponentInChildren<SettingsScreen>(true);
-            if (_retry == null) _retry = GetComponentInChildren<RetryScreen>(true);
+			if (_hud == null) _hud = GetComponentInChildren<HUDPanel>(true);
+			if (_win == null) _win = GetComponentInChildren<WinPanel>(true);
+			if (_fail == null) _fail = GetComponentInChildren<FailPanel>(true);
+			if (_settings == null) _settings = GetComponentInChildren<SettingsPanel>(true);
+			if (_retry == null) _retry = GetComponentInChildren<RetryPanel>(true);
 
 			// Inject UIRoot into screens to avoid FindObjectOfType
 			if (_hud != null) _hud.SetUIRoot(this);
@@ -141,7 +141,7 @@ namespace SerapKeremGameKit._UI
             return _fallbackConfig;
         }
 
-        private void HideExcept(UIScreen screen)
+		private void HideExcept(UIPanel screen)
         {
             if (_hud != null && _hud != screen) _hud.Hide();
             if (_win != null && _win != screen) _win.Hide();

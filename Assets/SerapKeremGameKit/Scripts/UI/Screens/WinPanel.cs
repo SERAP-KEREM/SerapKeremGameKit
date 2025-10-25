@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace SerapKeremGameKit._UI
 {
-    public sealed class WinScreen : UIScreen
+	public sealed class WinPanel : UIPanel
     {
         [Header("Stars")]
         [SerializeField] private GameObject _star1;

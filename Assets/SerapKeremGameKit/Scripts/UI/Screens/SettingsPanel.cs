@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 namespace SerapKeremGameKit._UI
 {
-    public sealed class SettingsScreen : UIScreen
+	public sealed class SettingsPanel : UIPanel
     {
         [SerializeField] private Toggle _soundToggle;
         [SerializeField] private Toggle _hapticToggle;

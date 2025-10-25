@@ -4,17 +4,16 @@ using UnityEngine.UI;
 
 namespace SerapKeremGameKit._UI
 {
-    public sealed class UIManagerHUD : UIScreen
+	public sealed class FailPanel : UIPanel
     {
-        [SerializeField] private TextMeshProUGUI _levelText;
+        [SerializeField] private Image _failIcon;
+        [SerializeField] private TextMeshProUGUI _coinText;
         [SerializeField] private Button _restartButton;
-        [SerializeField] private Button _settingsButton;
         [SerializeField] private UIRootController _uiRoot;
 
 		private void Awake()
 		{
 			if (_restartButton != null) _restartButton.BindOnClick(this, OnRestartClicked);
-			if (_settingsButton != null) _settingsButton.BindOnClick(this, OnSettingsClicked);
 		}
 
 		private void OnDestroy()
@@ -22,20 +21,15 @@ namespace SerapKeremGameKit._UI
 			// Auto-unsubscribe handled by ButtonExtensions
 		}
 
-        public void SetLevelIndex(int levelIndex)
+        public void Setup(int rewardedCoins, UIRootController uiRoot)
         {
-            if (_levelText != null)
-                _levelText.text = $"Level {levelIndex + 1}";
+            if (_coinText != null) _coinText.text = rewardedCoins.ToString();
+            _uiRoot = uiRoot;
         }
 
         private void OnRestartClicked()
         {
-            if (_uiRoot != null) _uiRoot.OnRestartRequested();
-        }
-
-        private void OnSettingsClicked()
-        {
-            if (_uiRoot != null) _uiRoot.OnOpenSettings();
+			if (_uiRoot != null) _uiRoot.OnRestartConfirmed();
         }
 
 		public void SetUIRoot(UIRootController uiRoot)
