@@ -19,7 +19,12 @@ namespace SerapKeremGameKit._UI
             _fadeTween?.Kill();
             if (canvasGroup == null) return;
             canvasGroup.alpha = 0f;
-            _fadeTween = canvasGroup.DOFade(1f, showDuration).SetEase(showEase).SetUpdate(true);
+			_fadeTween = canvasGroup
+				.DOFade(1f, showDuration)
+				.SetEase(showEase)
+				.SetUpdate(true)
+				.SetAutoKill(true)
+				.SetLink(gameObject, LinkBehaviour.KillOnDestroy);
         }
 
         public virtual void Hide()
@@ -30,10 +35,16 @@ namespace SerapKeremGameKit._UI
                 gameObject.SetActive(false);
                 return;
             }
-            _fadeTween = canvasGroup.DOFade(0f, hideDuration).SetEase(hideEase).SetUpdate(true).OnComplete(() =>
-            {
-                gameObject.SetActive(false);
-            });
+			_fadeTween = canvasGroup
+				.DOFade(0f, hideDuration)
+				.SetEase(hideEase)
+				.SetUpdate(true)
+				.SetAutoKill(true)
+				.SetLink(gameObject, LinkBehaviour.KillOnDestroy)
+				.OnComplete(() =>
+				{
+					gameObject.SetActive(false);
+				});
         }
 
         protected virtual void OnDestroy()

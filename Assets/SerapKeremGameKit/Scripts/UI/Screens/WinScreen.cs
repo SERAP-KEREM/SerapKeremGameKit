@@ -29,9 +29,14 @@ namespace SerapKeremGameKit._UI
             if (_nextButton != null) _nextButton.onClick.AddListener(OnNextClicked);
         }
 
-        private void OnDestroy()
+		private void OnDestroy()
         {
             if (_nextButton != null) _nextButton.onClick.RemoveListener(OnNextClicked);
+			if (_pendingSequence != null && _pendingSequence.IsActive())
+			{
+				_pendingSequence.Kill();
+				_pendingSequence = null;
+			}
         }
 
         public void Setup(int stars, int rewardedCoins, int totalCoins, UIRootController uiRoot)
@@ -62,10 +67,10 @@ namespace SerapKeremGameKit._UI
             {
                 long startAmount = 0;
                 long.TryParse(_totalCoinText.text, out startAmount);
-                _pendingSequence = _coinFly.AnimateAdd(_totalCoinText, _coinText.rectTransform, _totalCoinTarget, startAmount, _pendingReward);
+				_pendingSequence = _coinFly.AnimateAdd(_totalCoinText, _coinText.rectTransform, _totalCoinTarget, startAmount, _pendingReward);
                 if (_pendingSequence != null)
                 {
-                    _pendingSequence.OnComplete(() =>
+					_pendingSequence.SetAutoKill(true).SetLink(gameObject, LinkBehaviour.KillOnDestroy).OnComplete(() =>
                     {
                         if (_uiRoot != null) _uiRoot.ProceedNextLevelAfterReward(_pendingReward);
                     });

@@ -19,7 +19,9 @@ namespace SerapKeremGameKit._UI
             int iconCount = Mathf.Clamp((int)addAmount, 2, 12);
             long end = startAmount + addAmount;
 
-            var master = DOTween.Sequence();
+			var master = DOTween.Sequence()
+				.SetAutoKill(true)
+				.SetLink(gameObject, LinkBehaviour.KillOnDestroy);
 
             Vector3 originalScale = target.localScale;
 
@@ -33,37 +35,48 @@ namespace SerapKeremGameKit._UI
                 Vector3 burstOffset = (Vector3)(Random.insideUnitCircle * _spawnRadius);
 
                 // Burst out
-                var s1 = icon.DOMove(source.position + burstOffset, _spawnDuration)
-                    .SetEase(Ease.InOutSine)
-                    .SetDelay(i * _delayStep);
+				var s1 = icon.DOMove(source.position + burstOffset, _spawnDuration)
+					.SetEase(Ease.InOutSine)
+					.SetDelay(i * _delayStep)
+					.SetAutoKill(true)
+					.SetLink(gameObject, LinkBehaviour.KillOnDestroy);
 
                 // Fly to target
-                var s2 = icon.DOMove(target.position, _moveDuration)
-                    .SetEase(Ease.InBack)
+				var s2 = icon.DOMove(target.position, _moveDuration)
+					.SetEase(Ease.InBack)
+					.SetAutoKill(true)
+					.SetLink(gameObject, LinkBehaviour.KillOnDestroy)
                     .OnComplete(() =>
                     {
                         long stepValue = (long)Mathf.Ceil(Mathf.Lerp(startAmount, end, t));
                         totalText.text = stepValue.ToString();
                         target.DOKill();
                         target.localScale = originalScale;
-                        target.DOScale(originalScale * 1.04f, 0.08f).SetEase(Ease.OutQuad).SetLoops(2, LoopType.Yoyo).OnComplete(() =>
+						target.DOScale(originalScale * 1.04f, 0.08f)
+							.SetEase(Ease.OutQuad)
+							.SetLoops(2, LoopType.Yoyo)
+							.SetAutoKill(true)
+							.SetLink(gameObject, LinkBehaviour.KillOnDestroy)
+							.OnComplete(() =>
                         {
                             target.localScale = originalScale;
                         });
                         CoinPool.Instance.Despawn(icon);
                     });
 
-                var coinSeq = DOTween.Sequence();
+				var coinSeq = DOTween.Sequence()
+					.SetAutoKill(true)
+					.SetLink(gameObject, LinkBehaviour.KillOnDestroy);
                 coinSeq.Append(s1);
                 coinSeq.Append(s2);
                 master.Insert(0f, coinSeq);
             }
 
-            master.Append(DOVirtual.DelayedCall(iconCount * _delayStep + _spawnDuration + _moveDuration, () =>
+			master.Append(DOVirtual.DelayedCall(iconCount * _delayStep + _spawnDuration + _moveDuration, () =>
             {
                 totalText.text = end.ToString();
                 target.localScale = originalScale;
-            }));
+			}).SetAutoKill(true).SetLink(gameObject, LinkBehaviour.KillOnDestroy));
 
             return master;
         }
