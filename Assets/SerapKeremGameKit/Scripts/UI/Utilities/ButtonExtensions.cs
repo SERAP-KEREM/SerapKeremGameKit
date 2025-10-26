@@ -1,6 +1,8 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using SerapKeremGameKit._Audio;
+using SerapKeremGameKit._Haptics;
 
 namespace SerapKeremGameKit._UI
 {

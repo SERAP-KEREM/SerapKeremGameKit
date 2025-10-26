@@ -1,5 +1,7 @@
 using DG.Tweening;
 using UnityEngine;
+using SerapKeremGameKit._Audio;
+using SerapKeremGameKit._Haptics;
 
 namespace SerapKeremGameKit._UI
 {
@@ -10,6 +12,10 @@ namespace SerapKeremGameKit._UI
         [SerializeField] protected float hideDuration = 0.15f;
         [SerializeField] protected Ease showEase = Ease.OutQuad;
         [SerializeField] protected Ease hideEase = Ease.OutQuad;
+		[Header("Audio/Haptics Keys")]
+		[SerializeField] private string _showKey = "ui_open";
+		[SerializeField] private string _hideKey = "ui_close";
+		[SerializeField] private HapticType _showHaptic = HapticType.Light;
 
         private Tween _fadeTween;
 
@@ -19,6 +25,8 @@ namespace SerapKeremGameKit._UI
             _fadeTween?.Kill();
             if (canvasGroup == null) return;
             canvasGroup.alpha = 0f;
+			if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_showKey)) AudioManager.Instance.Play(_showKey);
+			if (HapticManager.IsInitialized && _showHaptic != HapticType.None) HapticManager.Instance.Play(_showHaptic);
 			_fadeTween = canvasGroup
 				.DOFade(1f, showDuration)
 				.SetEase(showEase)
@@ -35,6 +43,7 @@ namespace SerapKeremGameKit._UI
                 gameObject.SetActive(false);
                 return;
             }
+			if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_hideKey)) AudioManager.Instance.Play(_hideKey);
 			_fadeTween = canvasGroup
 				.DOFade(0f, hideDuration)
 				.SetEase(hideEase)

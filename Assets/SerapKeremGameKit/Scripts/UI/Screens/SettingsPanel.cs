@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using SerapKeremGameKit._Audio;
+using SerapKeremGameKit._Haptics;
 
 namespace SerapKeremGameKit._UI
 {
@@ -36,12 +38,14 @@ namespace SerapKeremGameKit._UI
         {
             PlayerPrefs.SetInt(SoundKey, value ? 1 : 0);
             PlayerPrefs.Save();
+            if (AudioManager.IsInitialized) AudioManager.Instance.SetEnabled(value);
         }
 
         private void OnHapticToggled(bool value)
         {
             PlayerPrefs.SetInt(HapticKey, value ? 1 : 0);
             PlayerPrefs.Save();
+            if (HapticManager.IsInitialized) HapticManager.Instance.SetEnabled(value);
         }
 
         private void OnCloseClicked()

@@ -1,5 +1,5 @@
-using SerapKeremGameKit._Logging;
 using SerapKeremGameKit._Singletons;
+using SerapKeremGameKit._Utilities;
 using UnityEngine;
 
 namespace SerapKeremGameKit._Haptics
@@ -15,11 +15,15 @@ namespace SerapKeremGameKit._Haptics
         protected override void Awake()
         {
             base.Awake();
+            if (Instance != this) return;
+            _enabled = PlayerPrefs.GetInt(PreferencesKeys.SettingsHaptic, 1) == 1;
         }
 
         public void SetEnabled(bool isEnabled)
         {
             _enabled = isEnabled;
+            PlayerPrefs.SetInt(PreferencesKeys.SettingsHaptic, _enabled ? 1 : 0);
+            PlayerPrefs.Save();
         }
 
         public void SetGlobalIntensity(float intensity)

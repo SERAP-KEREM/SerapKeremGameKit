@@ -3,6 +3,8 @@ using SerapKeremGameKit._LevelSystem;
 using SerapKeremGameKit._Levels;
 using SerapKeremGameKit._Managers;
 using UnityEngine;
+using SerapKeremGameKit._Audio;
+using SerapKeremGameKit._Haptics;
 
 namespace SerapKeremGameKit._UI
 {
@@ -19,6 +21,15 @@ namespace SerapKeremGameKit._UI
         [SerializeField] private LevelConfig _fallbackConfig;
 
         private GameState _lastState = GameState.None;
+
+		[Header("Audio Keys")]
+		[SerializeField] private string _keyOnStart = "ui_confirm";
+		[SerializeField] private string _keyOnWin = "game_win";
+		[SerializeField] private string _keyOnLose = "game_lose";
+		[SerializeField] private string _keyOnOpenSettings = "ui_open";
+		[SerializeField] private string _keyOnRestartDialog = "ui_open";
+		[SerializeField] private string _keyOnRestartConfirm = "ui_confirm";
+		[SerializeField] private string _keyOnNext = "ui_next";
 
         private void Awake()
         {
@@ -77,14 +88,19 @@ namespace SerapKeremGameKit._UI
                     _hud.Show();
                     _hud.SetLevelIndex(LevelManager.Instance.ActiveLevelNumber - 1);
                 }
+				if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_keyOnStart)) AudioManager.Instance.Play(_keyOnStart);
             }
             else if (current == GameState.OnWin)
             {
                 ShowWin();
+				if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_keyOnWin)) AudioManager.Instance.Play(_keyOnWin);
+                if (HapticManager.IsInitialized) HapticManager.Instance.Play(HapticType.Success);
             }
             else if (current == GameState.OnLose)
             {
                 ShowFail();
+				if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_keyOnLose)) AudioManager.Instance.Play(_keyOnLose);
+                if (HapticManager.IsInitialized) HapticManager.Instance.Play(HapticType.Failure);
             }
         }
 
@@ -153,6 +169,8 @@ namespace SerapKeremGameKit._UI
         public void OnRestartRequested()
         {
             if (_retry != null) _retry.Show();
+			if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_keyOnRestartDialog)) AudioManager.Instance.Play(_keyOnRestartDialog);
+            if (HapticManager.IsInitialized) HapticManager.Instance.Play(HapticType.Medium);
         }
 
         public void OnRestartConfirmed()
@@ -164,6 +182,8 @@ namespace SerapKeremGameKit._UI
                 _hud.Show();
                 _hud.SetLevelIndex(LevelManager.Instance.ActiveLevelNumber - 1);
             }
+			if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_keyOnRestartConfirm)) AudioManager.Instance.Play(_keyOnRestartConfirm);
+            if (HapticManager.IsInitialized) HapticManager.Instance.Play(HapticType.Medium);
         }
 
         public void OnNextLevelRequested()
@@ -179,6 +199,8 @@ namespace SerapKeremGameKit._UI
             {
                 _hud.SetLevelIndex(LevelManager.Instance.ActiveLevelNumber - 1);
             }
+			if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_keyOnNext)) AudioManager.Instance.Play(_keyOnNext);
+            if (HapticManager.IsInitialized) HapticManager.Instance.Play(HapticType.Light);
         }
 
         public void ProceedNextLevelAfterReward(int reward)
@@ -193,6 +215,8 @@ namespace SerapKeremGameKit._UI
         public void OnOpenSettings()
         {
             if (_settings != null) _settings.Show();
+			if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_keyOnOpenSettings)) AudioManager.Instance.Play(_keyOnOpenSettings);
+            if (HapticManager.IsInitialized) HapticManager.Instance.Play(HapticType.Selection);
         }
     }
 }

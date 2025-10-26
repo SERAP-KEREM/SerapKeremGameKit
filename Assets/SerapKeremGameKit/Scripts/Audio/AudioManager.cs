@@ -1,4 +1,5 @@
 using SerapKeremGameKit._Singletons;
+using SerapKeremGameKit._Utilities;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -21,6 +22,8 @@ namespace SerapKeremGameKit._Audio
 
         private readonly Dictionary<string, AudioData> _keyToData = new Dictionary<string, AudioData>(StringComparer.Ordinal);
 
+        [SerializeField] private bool _enabled = true;
+
         protected override void Awake()
         {
             base.Awake();
@@ -28,6 +31,8 @@ namespace SerapKeremGameKit._Audio
             BuildRegistry();
             EnsurePool();
             EnsureMusicSource();
+            // Load user preference for sound
+            _enabled = PlayerPrefs.GetInt(PreferencesKeys.SettingsSound, 1) == 1;
         }
 
         public void Play(string key)
@@ -59,8 +64,25 @@ namespace SerapKeremGameKit._Audio
             }
         }
 
+        public void SetEnabled(bool isEnabled)
+        {
+            _enabled = isEnabled;
+            PlayerPrefs.SetInt(PreferencesKeys.SettingsSound, _enabled ? 1 : 0);
+            PlayerPrefs.Save();
+            if (!_enabled)
+            {
+                StopMusic();
+            }
+        }
+
+        public bool IsEnabled()
+        {
+            return _enabled;
+        }
+
         private void PlayInternal(string key, bool is3D, Vector3 position)
         {
+            if (!_enabled) return;
             if (!_keyToData.TryGetValue(key, out AudioData data) || data == null || data.Clip == null)
             {
                 TraceLogger.LogWarning("Audio key not found: " + key, this);

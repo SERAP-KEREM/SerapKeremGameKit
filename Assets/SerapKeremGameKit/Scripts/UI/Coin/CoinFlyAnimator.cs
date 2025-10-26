@@ -1,6 +1,8 @@
 using DG.Tweening;
 using TMPro;
 using UnityEngine;
+using SerapKeremGameKit._Audio;
+using SerapKeremGameKit._Haptics;
 
 namespace SerapKeremGameKit._UI
 {
@@ -10,6 +12,12 @@ namespace SerapKeremGameKit._UI
         [SerializeField] private float _moveDuration = 0.35f;
         [SerializeField] private float _spawnRadius = 90f;
         [SerializeField] private float _delayStep = 0.03f;
+
+		[Header("Audio/Haptics Keys")]
+		[SerializeField] private string _coinTickKey = "coin_tick";
+		[SerializeField] private string _coinEndKey = "coin_whoosh";
+		[SerializeField] private HapticType _coinTickHaptic = HapticType.Light;
+		[SerializeField] private HapticType _coinEndHaptic = HapticType.Medium;
 
         public Sequence AnimateAdd(TextMeshProUGUI totalText, RectTransform source, RectTransform target, long startAmount, long addAmount)
         {
@@ -25,7 +33,7 @@ namespace SerapKeremGameKit._UI
 
             Vector3 originalScale = target.localScale;
 
-            for (int i = 0; i < iconCount; i++)
+			for (int i = 0; i < iconCount; i++)
             {
                 RectTransform icon = CoinPool.Instance.Spawn();
                 icon.SetParent(target.parent, worldPositionStays: false);
@@ -61,6 +69,8 @@ namespace SerapKeremGameKit._UI
                         {
                             target.localScale = originalScale;
                         });
+						if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_coinTickKey)) AudioManager.Instance.Play(_coinTickKey);
+						if (HapticManager.IsInitialized && _coinTickHaptic != HapticType.None) HapticManager.Instance.Play(_coinTickHaptic);
                         CoinPool.Instance.Despawn(icon);
                     });
 
@@ -76,6 +86,8 @@ namespace SerapKeremGameKit._UI
             {
                 totalText.text = end.ToString();
                 target.localScale = originalScale;
+				if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_coinEndKey)) AudioManager.Instance.Play(_coinEndKey);
+				if (HapticManager.IsInitialized && _coinEndHaptic != HapticType.None) HapticManager.Instance.Play(_coinEndHaptic);
 			}).SetAutoKill(true).SetLink(gameObject, LinkBehaviour.KillOnDestroy));
 
             return master;
