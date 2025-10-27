@@ -29,15 +29,16 @@ namespace SerapKeremGameKit._UI
 			if (_nextButton != null) _nextButton.BindOnClick(this, OnNextClicked);
         }
 
-		private void OnDestroy()
-        {
+		protected override void OnDestroy()
+		{
+			base.OnDestroy();
 			// Listener auto-unsubscribed by ButtonExtensions binding component
 			if (_pendingSequence != null && _pendingSequence.IsActive())
 			{
 				_pendingSequence.Kill();
 				_pendingSequence = null;
 			}
-        }
+		}
 
         public void Setup(int stars, int rewardedCoins, int totalCoins, UIRootController uiRoot)
         {

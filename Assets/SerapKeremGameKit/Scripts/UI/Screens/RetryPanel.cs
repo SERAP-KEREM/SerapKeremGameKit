@@ -15,8 +15,9 @@ namespace SerapKeremGameKit._UI
 			if (_noButton != null) _noButton.BindOnClick(this, OnNo);
 		}
 
-		private void OnDestroy()
+		protected override void OnDestroy()
 		{
+			base.OnDestroy();
 			// Auto-unsubscribe handled by ButtonExtensions
 		}
 

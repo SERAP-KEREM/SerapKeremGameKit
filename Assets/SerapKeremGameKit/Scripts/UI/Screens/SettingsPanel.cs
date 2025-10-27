@@ -27,8 +27,9 @@ namespace SerapKeremGameKit._UI
 			if (_closeButton != null) _closeButton.BindOnClick(this, OnCloseClicked);
 		}
 
-		private void OnDestroy()
+		protected override void OnDestroy()
 		{
+			base.OnDestroy();
 			if (_soundToggle != null) _soundToggle.onValueChanged.RemoveListener(OnSoundToggled);
 			if (_hapticToggle != null) _hapticToggle.onValueChanged.RemoveListener(OnHapticToggled);
 			// _closeButton auto-unsubscribed by ButtonExtensions

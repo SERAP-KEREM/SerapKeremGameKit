@@ -16,8 +16,9 @@ namespace SerapKeremGameKit._UI
 			if (_restartButton != null) _restartButton.BindOnClick(this, OnRestartClicked);
 		}
 
-		private void OnDestroy()
+		protected override void OnDestroy()
 		{
+			base.OnDestroy();
 			// Auto-unsubscribe handled by ButtonExtensions
 		}
 
