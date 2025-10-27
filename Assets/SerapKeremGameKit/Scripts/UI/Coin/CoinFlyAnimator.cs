@@ -15,9 +15,7 @@ namespace SerapKeremGameKit._UI
 
 		[Header("Audio/Haptics Keys")]
 		[SerializeField] private string _coinTickKey = "coin_tick";
-		[SerializeField] private string _coinEndKey = "coin_whoosh";
 		[SerializeField] private HapticType _coinTickHaptic = HapticType.Light;
-		[SerializeField] private HapticType _coinEndHaptic = HapticType.Medium;
 
         public Sequence AnimateAdd(TextMeshProUGUI totalText, RectTransform source, RectTransform target, long startAmount, long addAmount)
         {
@@ -86,8 +84,6 @@ namespace SerapKeremGameKit._UI
             {
                 totalText.text = end.ToString();
                 target.localScale = originalScale;
-				if (AudioManager.IsInitialized && !string.IsNullOrEmpty(_coinEndKey)) AudioManager.Instance.Play(_coinEndKey);
-				if (HapticManager.IsInitialized && _coinEndHaptic != HapticType.None) HapticManager.Instance.Play(_coinEndHaptic);
 			}).SetAutoKill(true).SetLink(gameObject, LinkBehaviour.KillOnDestroy));
 
             return master;

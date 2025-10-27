@@ -1763,7 +1763,7 @@ PrefabInstance:
       objectReference: {fileID: 1775113927}
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.size
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.data[0].Key
