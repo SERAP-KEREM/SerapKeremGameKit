@@ -426,7 +426,7 @@ Transform:
   m_GameObject: {fileID: 551824940}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 466.93338, y: 695.48737, z: 7.3739843}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -644,13 +644,12 @@ Transform:
   m_GameObject: {fileID: 1639171338}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 466.93338, y: 695.48737, z: 7.3739843}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1862895125}
   - {fileID: 293704984}
-  - {fileID: 2110576744}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1775113926 stripped
@@ -747,54 +746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 057ff7707f799aa4c9f8a879a6238a7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &2110576743
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2110576744}
-  - component: {fileID: 2110576745}
-  m_Layer: 0
-  m_Name: AudioTest
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2110576744
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110576743}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1639171339}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2110576745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2110576743}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24b538f737b71d645b025cc877f2cc20, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _audioKey: audio
-  _audioManager: {fileID: 6437941328871569055}
-  _useKeyboard: 1
-  _playKey: 97
 --- !u!114 &603871018727530369 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3766484039895459463, guid: 8c5b5dccb5a0b49d88a0a560ce89ed8d, type: 3}
@@ -1635,17 +1586,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7337703676851645948, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
   m_PrefabInstance: {fileID: 8724334924524533406}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6437941328871569055 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
-  m_PrefabInstance: {fileID: 8724334924524533406}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c0a12d94bb8ce94885048ee772c9205, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &6703622152594652546 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3478298098622723766, guid: 31321f8b100624a4599e9b7d27bba191, type: 3}
@@ -1763,7 +1703,7 @@ PrefabInstance:
       objectReference: {fileID: 1775113927}
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.size
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.data[0].Key
@@ -1799,7 +1739,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.data[7]._key
-      value: coin_whoosh
+      value: ui_next
       objectReference: {fileID: 0}
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.data[0]._clip
@@ -1832,7 +1772,7 @@ PrefabInstance:
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.data[7]._clip
       value: 
-      objectReference: {fileID: 8300000, guid: 2ba2fb7d6a89434418df443c4f99ea07, type: 3}
+      objectReference: {fileID: 8300000, guid: 8521a953f3317974d9327566f209d50d, type: 3}
     - target: {fileID: 2959463927157227842, guid: 618054946c097674a96e0d2e1ed4642b, type: 3}
       propertyPath: _audioList.Array.data[1]._pitch
       value: 1
