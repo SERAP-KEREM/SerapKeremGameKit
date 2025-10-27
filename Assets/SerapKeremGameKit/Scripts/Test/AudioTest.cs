@@ -12,8 +12,8 @@ public class AudioTest : MonoBehaviour
 
     private void Awake()
     {
-        if (_audioManager == null)
-            _audioManager = FindObjectOfType<AudioManager>(true);
+		if (_audioManager == null)
+			_audioManager = FindFirstObjectByType<AudioManager>(FindObjectsInactive.Include);
     }
 
     private void Update()

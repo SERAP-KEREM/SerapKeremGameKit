@@ -182,7 +182,7 @@ namespace SerapKeremGameKit._UI
         private CurrencyWallet GetWallet()
         {
             if (_wallet != null) return _wallet;
-            var found = FindObjectOfType<CurrencyWallet>(true);
+			var found = FindFirstObjectByType<CurrencyWallet>(FindObjectsInactive.Include);
             _wallet = found;
             return _wallet;
         }

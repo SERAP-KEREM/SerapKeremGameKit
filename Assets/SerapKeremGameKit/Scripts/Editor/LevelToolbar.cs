@@ -22,7 +22,7 @@ namespace SerapKeremGameKit._EditorTools
 
         private static void DrawToolbar()
         {
-            var lm = Object.FindObjectOfType<LevelManager>();
+			var lm = Object.FindFirstObjectByType<LevelManager>();
             if (lm == null) return;
 
             using (new EditorGUI.DisabledScope(EditorApplication.isPlayingOrWillChangePlaymode))

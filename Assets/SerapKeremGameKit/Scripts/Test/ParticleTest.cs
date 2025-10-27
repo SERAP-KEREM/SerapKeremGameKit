@@ -12,8 +12,8 @@ public class ParticleTest : MonoBehaviour
 
     private void Awake()
     {
-        if (_particleManager == null)
-            _particleManager = FindObjectOfType<ParticleManager>(true);
+		if (_particleManager == null)
+			_particleManager = FindFirstObjectByType<ParticleManager>(FindObjectsInactive.Include);
     }
 
     private void Update()
