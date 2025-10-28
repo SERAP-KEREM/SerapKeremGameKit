@@ -1,8 +1,8 @@
-# SerapKeremGameKit
+# SerapKeremGameKit — Unity Game Boilerplate
 
-_A lightweight yet powerful Unity foundation kit for rapid prototyping and scalable production._
+_A lightweight yet powerful Unity game boilerplate (template) for rapid prototyping and scalable production._
 
-A production‑ready Unity template to kickstart new games fast. It ships with a clean, decoupled architecture, ready‑to‑use managers, pooled audio/particles, UI helpers, haptics, input handling, and editor tooling. Designed for readability, modularity, and scalability. This separation keeps your game logic independent from engine lifecycle, enabling faster iteration and easier testing.
+A production‑ready Unity boilerplate/template to kickstart new games fast. It ships with a clean, decoupled architecture, ready‑to‑use managers, pooled audio/particles, UI helpers, haptics, input handling, and editor tooling. Designed for readability, modularity, and scalability. This separation keeps your game logic independent from engine lifecycle, enabling faster iteration and easier testing.
 
 - **Engine**: Unity (URP supported)
 - **Language**: C#
@@ -29,7 +29,12 @@ A production‑ready Unity template to kickstart new games fast. It ships with a
 
 ## Getting Started
 
-### 1) Clone/Import
+### 1) Use as Template (Recommended)
+- Click “Use this template” on GitHub to generate your own repository.
+- Or fork and rename your project repo.
+- Suggested repo topics for discoverability: `unity`, `boilerplate`, `unity-template`, `game-template`, `unity-urp`.
+
+### Alternative: Clone/Import
 - Clone the repo into your Unity project `Assets` or import as a template.
 - Open with a Unity version compatible with URP.
 
@@ -158,6 +163,12 @@ int total = CurrencyWallet.Instance.Coins;
 - **TraceLogger**: Colored logs with caller info in Editor/Development builds.
 - **Toolbars**: Time scale/level toolbars under `Scripts/Editor` (if included).
 - **URP Setup**: `GameManager` reads current URP asset and applies shadow distance.
+
+## Using This Boilerplate
+- Click “Use this template” on GitHub to create a new repo from this boilerplate.
+- Replace company/game identifiers (namespace, product name) in `ProjectSettings` as needed.
+- Swap sample assets with your own; keep managers and core systems.
+- Add your own gameplay modules in `Scripts/` and hook into the provided managers.
 
 
 ## Dependencies
