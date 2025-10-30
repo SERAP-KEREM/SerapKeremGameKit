@@ -4,6 +4,8 @@ using UnityEditor;
 using UnityEngine;
 using Array2DEditor;
 using TriInspector;
+using System.Reflection;
+using System;
 
 namespace SerapKeremGameKit._Tile
 {
@@ -14,6 +16,9 @@ namespace SerapKeremGameKit._Tile
         [SerializeField, Range(0.1f, 100f)] private float _distance = 1f;
         [Title("Grid Settings"), PropertyOrder(2)]
         [SerializeField] private Array2DInt _tileSizeArray; // Drives grid size/content via Array2DEditor
+
+        [SerializeField, HideInInspector] private int _lastWidth;
+        [SerializeField, HideInInspector] private int _lastHeight;
 
         // Prefab is taken from TileSpawner; no need to duplicate here
 
@@ -45,17 +50,19 @@ namespace SerapKeremGameKit._Tile
             ClearEditor();
 
             var cells = _tileSizeArray.GetCells(); // int[,]
-            int width = cells.GetLength(0);
-            int height = cells.GetLength(1);
+            // Array2DEditor is typically row-major: [row(y), column(x)]
+            int height = cells.GetLength(0);
+            int width = cells.GetLength(1);
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    int v = cells[x, y];
+                    int v = cells[y, x];
                     if (v <= 0) continue; // 0 => empty, >0 => place tile
 
-                    Vector3 pos = new Vector3(x * _distance, y * _distance, 0f) + parent.position;
+                    float worldY = (height - 1 - y) * _distance; // y=0 at top
+                    Vector3 pos = new Vector3(x * _distance, worldY, 0f) + parent.position;
                     Tile tile = spawner.SpawnTileInEditor(pos, parent);
                     if (tile != null)
                     {
@@ -63,6 +70,10 @@ namespace SerapKeremGameKit._Tile
                         tile.name = $"Tile [{x},{y}]";
                         Undo.RegisterCreatedObjectUndo(tile.gameObject, "Create Tile");
                         EditorUtility.SetDirty(tile);
+                    }
+                    else
+                    {
+                        TraceLogger.LogError("Failed to spawn tile at (" + x + "," + y + ") worldPos=" + pos, this);
                     }
                 }
             }
@@ -81,6 +92,68 @@ namespace SerapKeremGameKit._Tile
                 Undo.DestroyObjectImmediate(go);
             }
             EditorUtility.SetDirty(gameObject);
+        }
+
+        private void OnValidate()
+        {
+#if UNITY_EDITOR
+            if (Application.isPlaying) return;
+            if (_tileSizeArray == null) return;
+
+            // Ensure only newly added cells default to 1 in the inspector grid
+            var cells = _tileSizeArray.GetCells();
+            int height = cells.GetLength(0);
+            int width = cells.GetLength(1);
+            int prevW = Math.Max(0, _lastWidth);
+            int prevH = Math.Max(0, _lastHeight);
+            if (width > prevW || height > prevH)
+            {
+                // Write 1 only into the newly added columns/rows
+                var setCell = _tileSizeArray.GetType().GetMethod(
+                    "SetCell",
+                    BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                    null,
+                    new System.Type[] { typeof(int), typeof(int), typeof(int) },
+                    null);
+
+                if (setCell != null)
+                {
+                    for (int y = 0; y < height; y++)
+                    {
+                        for (int x = 0; x < width; x++)
+                        {
+                            bool isNewCell = (x >= prevW) || (y >= prevH);
+                            if (!isNewCell) continue;
+                            if (cells[y, x] == 0)
+                                setCell.Invoke(_tileSizeArray, new object[] { x, y, 1 });
+                        }
+                    }
+                    EditorUtility.SetDirty(this);
+                }
+                else
+                {
+                    // Fallback: SetCells if available
+                    var setCells = _tileSizeArray.GetType().GetMethod(
+                        "SetCells",
+                        BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                        null,
+                        new System.Type[] { typeof(int[,]) },
+                        null);
+                    if (setCells != null)
+                    {
+                        var filled = (int[,])cells.Clone();
+                        for (int y = 0; y < height; y++)
+                            for (int x = 0; x < width; x++)
+                                if ((x >= prevW || y >= prevH) && filled[y, x] == 0) filled[y, x] = 1;
+                        setCells.Invoke(_tileSizeArray, new object[] { filled });
+                        EditorUtility.SetDirty(this);
+                    }
+                }
+            }
+
+            _lastWidth = width;
+            _lastHeight = height;
+#endif
         }
 #endif
     }
