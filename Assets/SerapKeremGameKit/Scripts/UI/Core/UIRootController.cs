@@ -134,9 +134,7 @@ namespace SerapKeremGameKit._UI
             }
         }
 
-        /// <summary>
-        /// Calculates completion time based on level time and remaining time.
-        /// </summary>
+        
         private float CalculateCompletionTime(Level level)
         {
             if (level == null)
