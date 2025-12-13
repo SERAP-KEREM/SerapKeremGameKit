@@ -11,8 +11,8 @@ namespace SerapKeremGameKit._UI
         [SerializeField] private Toggle _hapticToggle;
         [SerializeField] private Button _closeButton;
 
-        private const string SoundKey = SerapKeremGameKit._Utilities.PreferencesKeys.SettingsSound;
-        private const string HapticKey = SerapKeremGameKit._Utilities.PreferencesKeys.SettingsHaptic;
+        private const string SoundKey = _Utilities.PreferencesKeys.SettingsSound;
+        private const string HapticKey = _Utilities.PreferencesKeys.SettingsHaptic;
 
         private void OnEnable()
         {
@@ -55,7 +55,3 @@ namespace SerapKeremGameKit._UI
         }
     }
 }
-
-
-
-

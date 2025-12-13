@@ -33,5 +33,3 @@ namespace SerapKeremGameKit._UI
 		}
 	}
 }
-
-

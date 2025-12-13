@@ -19,6 +19,10 @@ namespace SerapKeremGameKit._LevelSystem
 		[Title("Grid Settings"), PropertyOrder(2)]
 		[SerializeField] private Array2DInt _tileSizeArray;
 
+        [Title("Time Settings")]
+        [SerializeField, Min(0f)] private float _levelTime = 120f;
+        public float LevelTime => _levelTime;
+
         [ReadOnly]
         [SerializeField] private bool _isLevelWon;
 
@@ -104,7 +108,7 @@ namespace SerapKeremGameKit._LevelSystem
 
         private IEnumerator WinCoroutine()
         {
-            InputHandler.Instance.LockInput();
+			if (InputHandler.Instance != null) InputHandler.Instance.LockInput();
             yield return new WaitForSeconds(0.5f);
             // Example: reward coins for win
             // int coins = PlayerPrefs.GetInt("skgk.currency.coins", 0) + 10; PlayerPrefs.SetInt("skgk.currency.coins", coins); PlayerPrefs.Save();
@@ -120,7 +124,7 @@ namespace SerapKeremGameKit._LevelSystem
 
         private IEnumerator LoseCoroutine()
         {
-            InputHandler.Instance.LockInput();
+			if (InputHandler.Instance != null) InputHandler.Instance.LockInput();
             yield return new WaitForSeconds(0.5f);
 
             TraceLogger.Log("LOSE!!!");

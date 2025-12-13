@@ -1139,6 +1139,10 @@ PrefabInstance:
       propertyPath: _fallbackConfig
       value: 
       objectReference: {fileID: 1271618338}
+    - target: {fileID: 8507595619059102831, guid: 8c5b5dccb5a0b49d88a0a560ce89ed8d, type: 3}
+      propertyPath: _timeText
+      value: 
+      objectReference: {fileID: 3077026657313032756}
     - target: {fileID: 8785775617951597707, guid: 8c5b5dccb5a0b49d88a0a560ce89ed8d, type: 3}
       propertyPath: m_Name
       value: UI
@@ -1148,6 +1152,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8c5b5dccb5a0b49d88a0a560ce89ed8d, type: 3}
+--- !u!114 &3077026657313032756 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5092733951677090688, guid: 8c5b5dccb5a0b49d88a0a560ce89ed8d, type: 3}
+  m_PrefabInstance: {fileID: 3077026657313032755}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &3760499964247125298
 PrefabInstance:
   m_ObjectHideFlags: 0
